@@ -1,0 +1,65 @@
+<section class="detail-header">
+
+    <div class="container">
+
+        <h1>{{vehiculo.modelo}}</h1>
+
+        <p>
+            Vehículo disponible para nuestros tours y experiencias.
+        </p>
+
+    </div>
+
+</section>
+
+<div class="container py-5">
+
+    <div class="detail-card">
+
+        <div class="row g-4">
+
+            <!-- Información del vehículo -->
+            <div class="col-md-6">
+                <div class="info-item">
+                    <i class="bi bi-upc-scan"></i>
+                    <span>{{vehiculo.matricula}}</span>
+                </div>
+
+                <div class="info-item">
+                    <i class="bi bi-people-fill"></i>
+                    <span>Capacidad: {{vehiculo.capacidad}} personas</span>
+                </div>
+
+            </div>
+
+            <!-- Información del chofer -->
+            <div class="col-md-6">
+
+                <div class="info-item">
+                    <i class="bi bi-person-badge-fill"></i>
+                    <span>Chofer: {{vehiculo.nombre_chofer}}</span>
+                </div>
+
+                <div class="info-item">
+                    <i class="bi bi-telephone-fill"></i>
+                    <span>{{vehiculo.telefono_chofer}}</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="text-center mt-4">
+
+            <button
+                class="btn btn-success rounded-pill px-4"
+                [routerLink]="['/']"
+            >
+                Volver
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

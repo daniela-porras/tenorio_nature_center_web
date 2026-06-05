@@ -1,0 +1,77 @@
+<section class="detail-header">
+
+    <div class="container">
+
+        <h1>{{tour.nombre}}</h1>
+
+        <p>
+            Explora una experiencia única en Tenorio Nature Center.
+        </p>
+
+    </div>
+
+</section>
+
+<div class="container py-5">
+
+    <div class="detail-card">
+
+        <div class="row g-4">
+
+            <div class="col-md-6">
+
+                <div class="info-item">
+                    <i class="bi bi-map-fill"></i>
+                    <span>{{tour.nombre}}</span>
+                </div>
+
+                <div class="info-item">
+                    <i class="bi bi-clock-fill"></i>
+                    <span>{{tour.duracion}} horas</span>
+                </div>
+
+                <div class="info-item">
+                    <i class="bi bi-calendar-event"></i>
+                    <span>{{tour.horario}}</span>
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="info-item">
+                    <i class="bi bi-people-fill"></i>
+                    <span>{{tour.cuposmaximos}} personas</span>
+                </div>
+
+                <div class="info-item">
+                    <i class="bi bi-cash-stack"></i>
+                    <span>${{tour.preciobase}}</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <h4 class="mb-3">Descripción</h4>
+
+        <p>
+            {{tour.descripcion}}
+        </p>
+
+        <div class="text-center mt-4">
+
+            <button
+                class="btn btn-success rounded-pill px-4"
+                [routerLink]="['/']"
+            >
+                Volver
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

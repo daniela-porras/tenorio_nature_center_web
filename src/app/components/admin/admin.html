@@ -1,0 +1,248 @@
+<section class="admin-header">
+
+    <div class="container">
+
+        <h1>Panel de Administración</h1>
+
+        <p>
+            Gestiona tours, reservas, personal, vehículos y la configuración general del sistema.
+        </p>
+
+    </div>
+
+</section>
+
+<div class="container py-5">
+
+    <!-- OPERACIÓN TURÍSTICA -->
+    <h2 class="section-title mb-4">
+        Operación Turística
+    </h2>
+
+    <div class="row g-4 mb-5">
+
+        <!-- Tours -->
+        <div class="col-md-4">
+
+            <div class="admin-card">
+
+                <i class="bi bi-map-fill"></i>
+
+                <h3>Tours</h3>
+
+                <p>
+                    Gestionar tours.
+                </p>
+
+                <a
+                    class="btn btn-success"
+                    [routerLink]="['/admin/tours']">
+                    Administrar
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- Reservas -->
+        <div class="col-md-4">
+
+            <div class="admin-card">
+
+                <i class="bi bi-calendar-check-fill"></i>
+
+                <h3>Reservas</h3>
+
+                <p>
+                    Gestionar reservas del sistema.
+                </p>
+
+                <button class="btn btn-success"
+                    [routerLink]="['/admin/reservas']">
+                    Administrar
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- Guías -->
+        <div class="col-md-4">
+
+            <div class="admin-card">
+
+                <i class="bi bi-person-video3"></i>
+
+                <h3>Guías</h3>
+
+                <p>
+                    Gestionar guías turísticos.
+                </p>
+
+                <button class="btn btn-success">
+                    Administrar
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- Idiomas -->
+        <div class="col-md-4">
+
+            <div class="admin-card">
+
+                <i class="bi bi-translate"></i>
+
+                <h3>Idiomas</h3>
+
+                <p>
+                    Gestionar idiomas disponibles.
+                </p>
+
+                <button class="btn btn-success">
+                    Administrar
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- Choferes -->
+        <div class="col-md-4">
+
+            <div class="admin-card">
+
+                <i class="bi bi-person-badge-fill"></i>
+
+                <h3>Choferes</h3>
+
+                <p>
+                    Gestionar choferes.
+                </p>
+
+                <button class="btn btn-success">
+                    Administrar
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- Vehículos -->
+        <div class="col-md-4">
+
+            <div class="admin-card">
+
+                <i class="bi bi-truck-front-fill"></i>
+
+                <h3>Vehículos</h3>
+
+                <p>
+                    Gestionar flotilla de transporte.
+                </p>
+
+                <button class="btn btn-success">
+                    Administrar
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- Ubicaciones -->
+        <div class="col-md-4 offset-md-4">
+
+            <div class="admin-card">
+
+                <i class="bi bi-geo-alt-fill"></i>
+
+                <h3>Ubicaciones</h3>
+
+                <p>
+                    Gestionar ubicaciones y puntos de interés.
+                </p>
+
+                <button class="btn btn-success">
+                    Administrar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ADMINISTRACIÓN -->
+    <h2 class="section-title mb-4">
+        Administración Interna
+    </h2>
+
+    <div class="row g-4">
+
+        <!-- Clientes -->
+        <div class="col-md-4">
+
+            <div class="admin-card">
+
+                <i class="bi bi-people-fill"></i>
+
+                <h3>Clientes</h3>
+
+                <p>
+                    Gestionar clientes del sistema.
+                </p>
+
+                <button class="btn btn-success">
+                    Administrar
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- Usuarios -->
+        <div class="col-md-4">
+
+            <div class="admin-card">
+
+                <i class="bi bi-person-gear"></i>
+
+                <h3>Usuarios</h3>
+
+                <p>
+                    Gestionar usuarios y permisos.
+                </p>
+
+                <button class="btn btn-success">
+                    Administrar
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- Facturación -->
+        <div class="col-md-4">
+
+            <div class="admin-card">
+
+                <i class="bi bi-receipt-cutoff"></i>
+
+                <h3>Facturación</h3>
+
+                <p>
+                    Gestionar facturas y pagos.
+                </p>
+
+                <button class="btn btn-success">
+                    Administrar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

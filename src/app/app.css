@@ -1,0 +1,64 @@
+/* GENERAL */
+
+body{
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* NAVBAR */
+.custom-navbar{
+    position:absolute;
+    top:0;
+    width:100%;
+    z-index:1000;
+    padding:20px 0;
+    background:transparent;
+}
+
+.logo{
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
+
+.brand-text{
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.nav-link{
+    color: white !important;
+    margin: 0 10px;
+    font-weight: 500;
+}
+
+.nav-link:hover{
+    color: #7dd87d !important;
+}
+
+/* FOOTER */
+.footer-custom{
+    background: #1f3d2f;
+    color: white;
+    padding: 2rem 0;
+}
+
+.footer-custom h5{
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.footer-info p{
+    margin-bottom: .5rem;
+}
+
+.footer-info i{
+    margin-right: .5rem;
+    color: #cfe8d5;
+}
+
+.footer-custom hr{
+    border-color: rgba(255,255,255,.2);
+    margin: 1.5rem 0;
+}

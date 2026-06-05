@@ -1,0 +1,278 @@
+<div class="container py-4">
+
+    <h2 class="mb-4">
+        Gestión de Reservas
+    </h2>
+
+    @if(mensaje!=''){
+        <div class="alert alert-success">
+            {{mensaje}}
+        </div>
+    }
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+            Nueva Reserva
+        </div>
+
+        <div class="card-body">
+
+            <h5>Cliente Principal</h5>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Nombre"
+                        [(ngModel)]="reserva.nombreCliente">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Identificación"
+                        [(ngModel)]="reserva.identificadorCliente">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <input
+                        type="date"
+                        class="form-control"
+                        [(ngModel)]="reserva.fechaNacCliente">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Teléfono"
+                        [(ngModel)]="reserva.telefonoCliente">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Nacionalidad"
+                        [(ngModel)]="reserva.nacionalidadCliente">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <select
+                        class="form-select"
+                        [(ngModel)]="reserva.idEmpresaCliente">
+
+                        <option [ngValue]="null">
+                            Sin empresa
+                        </option>
+
+                        @for(empresa of empresas; track empresa.idempresacliente){
+
+                            <option [value]="empresa.idempresacliente">
+                                {{empresa.razonsocial}}
+                            </option>
+
+                        }
+
+                    </select>
+                </div>
+
+            </div>
+
+            <hr>
+
+            <h5>Detalle Reserva</h5>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <select class="form-select"
+                        [(ngModel)]="reserva.idTour">
+
+                        <option [ngValue]="null">
+                            Seleccione Tour
+                        </option>
+
+                        @for(tour of tours; track tour.idtour){
+
+                            <option [value]="tour.idtour">
+                                {{tour.nombre}}
+                            </option>
+
+                        }
+
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <input
+                        type="date"
+                        class="form-control"
+                        [(ngModel)]="reserva.fechaTour">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <select class="form-select"
+                        [(ngModel)]="reserva.idGuia">
+
+                        @for(guia of guias; track guia.idguia){
+
+                            <option [value]="guia.idguia">
+                                {{guia.nombre}}
+                            </option>
+
+                        }
+
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <select class="form-select"
+                        [(ngModel)]="reserva.idChofer">
+
+                        @for(chofer of choferes; track chofer.idchofer){
+
+                            <option [value]="chofer.idchofer">
+                                {{chofer.nombre}}
+                            </option>
+
+                        }
+
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <select class="form-select"
+                        [(ngModel)]="reserva.idUbicacion">
+
+                        @for(ubicacion of ubicaciones; track ubicacion.idubicacion){
+
+                            <option [value]="ubicacion.idubicacion">
+                                {{ubicacion.nombre}}
+                            </option>
+
+                        }
+
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <select class="form-select"
+                        [(ngModel)]="reserva.idIdioma">
+
+                        @for(idioma of idiomas; track idioma.ididioma){
+
+                            <option [value]="idioma.ididioma">
+                                {{idioma.nombre}}
+                            </option>
+
+                        }
+
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <select class="form-select"
+                        [(ngModel)]="reserva.idEstadoReserva">
+
+                        @for(estado of estadosReserva; track estado.idestadoreserva){
+
+                            <option [value]="estado.idestadoreserva">
+                                {{estado.nombre}}
+                            </option>
+
+                        }
+
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Precio"
+                        [(ngModel)]="reserva.precio">
+                </div>
+
+            </div>
+
+            <hr>
+
+            <h5>Participantes</h5>
+
+            <button
+                type="button"
+                class="btn btn-success mb-3"
+                (click)="agregarParticipante()">
+
+                Agregar Participante
+
+            </button>
+
+            @for(participante of participantes; track $index){
+
+                <div class="border rounded p-3 mb-3">
+
+                    <input
+                        class="form-control mb-2"
+                        placeholder="Nombre"
+                        [(ngModel)]="participante.nombre">
+
+                    <input
+                        class="form-control mb-2"
+                        placeholder="Identificación"
+                        [(ngModel)]="participante.identificador">
+
+                    <input
+                        type="date"
+                        class="form-control mb-2"
+                        [(ngModel)]="participante.fechaNac">
+
+                    <input
+                        class="form-control mb-2"
+                        placeholder="Teléfono"
+                        [(ngModel)]="participante.telefono">
+
+                    <input
+                        class="form-control mb-2"
+                        placeholder="Nacionalidad"
+                        [(ngModel)]="participante.nacionalidad">
+
+                    <button
+                        type="button"
+                        class="btn btn-danger"
+                        (click)="eliminarParticipante($index)">
+
+                        Eliminar
+
+                    </button>
+
+                </div>
+
+            }
+
+            <button
+                class="btn btn-primary me-2"
+                (click)="guardarReserva()">
+
+                Guardar Reserva
+
+            </button>
+
+            <button
+                class="btn btn-secondary"
+                (click)="cancelar()">
+
+                Limpiar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

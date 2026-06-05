@@ -1,0 +1,102 @@
+<section class="detail-header">
+
+    <div class="container">
+
+        <h1>Mis Reservas</h1>
+
+        <p>
+            Visualiza tus próximas experiencias en Tenorio Nature Center.
+        </p>
+
+    </div>
+
+</section>
+
+<div class="container py-5">
+
+    @if(reservas.length > 0){
+
+        <div class="row g-4">
+
+            @for(reserva of reservas; track reserva.idparticipante){
+
+                <div class="col-lg-6">
+
+                    <div class="reservation-card">
+
+                        <div class="reservation-top">
+
+                            <div>
+                                <h3>
+                                    {{reserva.tournombre}}
+                                </h3>
+                            </div>
+
+                            <span
+                                class="status-badge"
+                                [class.pending]="reserva.nombreestado === 'Pendiente'"
+                                [class.confirmed]="reserva.nombreestado === 'Confirmada'"
+                                [class.cancelled]="reserva.nombreestado === 'Cancelada'"
+                            >
+                                {{reserva.nombreestado}}
+                            </span>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="info-item">
+
+                            <i class="bi bi-calendar-event-fill"></i>
+
+                            <span>
+                                {{reserva.fechatour | date:'dd/MM/yyyy'}}
+                            </span>
+
+                        </div>
+
+                        <div class="info-item">
+
+                            <i class="bi bi-cash-stack"></i>
+
+                            <span>
+                                ${{reserva.preciounitario}}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            }
+
+        </div>
+
+    }@else{
+
+        <div class="empty-state">
+
+            <i class="bi bi-calendar-x"></i>
+
+            <h3>No tienes reservas registradas</h3>
+
+            <p>
+                Cuando realices una reserva aparecerá aquí.
+            </p>
+
+        </div>
+
+    }
+
+    <div class="text-center mt-5">
+        <button
+        class="btn btn-success rounded-pill px-4"
+        [routerLink]="['/']"
+        >
+        Volver
+        </button>
+
+    </div>
+
+</div>

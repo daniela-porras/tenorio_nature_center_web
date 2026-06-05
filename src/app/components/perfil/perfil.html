@@ -1,0 +1,119 @@
+<section class="detail-header">
+
+    <div class="container">
+
+        <h1>Mi Perfil</h1>
+
+        <p>
+            Información de tu cuenta en Tenorio Nature Center.
+        </p>
+
+    </div>
+
+</section>
+
+<div class="container py-5">
+
+    <div class="detail-card">
+
+        <h4 class="mb-4">
+            Información de Usuario
+        </h4>
+
+        <div class="row g-4">
+
+            <div class="col-md-6">
+
+                <div class="info-item">
+                    <i class="bi bi-person-fill"></i>
+                    <span>
+                        {{usuario.nombre}} {{usuario.apellido}}
+                    </span>
+                </div>
+
+                <div class="info-item">
+                    <i class="bi bi-envelope-fill"></i>
+                    <span>
+                        {{usuario.correo}}
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="info-item">
+                    <i class="bi bi-shield-check"></i>
+                    <span>
+                        {{usuario.rol}}
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+        @if(usuario.rol === 'Cliente'){
+
+            <hr>
+
+            <h4 class="mb-4">
+                Información del Cliente
+            </h4>
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <div class="info-item">
+                        <i class="bi bi-card-text"></i>
+                        <span>
+                            {{cliente.identificador}}
+                        </span>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="bi bi-telephone-fill"></i>
+                        <span>
+                            {{cliente.telefono}}
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="info-item">
+                        <i class="bi bi-globe"></i>
+                        <span>
+                            {{cliente.nacionalidad}}
+                        </span>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="bi bi-building"></i>
+                        <span>
+                            {{cliente.idempresacliente?.valid ? 'Cliente Empresarial' : 'Cliente Individual'}}
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        }
+
+        <div class="text-center mt-4">
+
+            <button
+                class="btn btn-success rounded-pill px-4"
+                [routerLink]="['/']"
+            >
+                Volver
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

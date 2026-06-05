@@ -1,0 +1,74 @@
+<section class="detail-header">
+
+    <div class="container">
+
+        <h1>{{chofer.nombre}}</h1>
+
+        <p>
+            Conoce a uno de nuestros choferes certificados.
+        </p>
+
+    </div>
+
+</section>
+
+<div class="container py-5">
+
+    <div class="detail-card">
+
+        <div class="row g-4">
+
+            <div class="col-md-6">
+
+                <div class="info-item">
+                    <i class="bi bi-person-fill"></i>
+                    <span>{{chofer.nombre}}</span>
+                </div>
+
+                <div class="info-item">
+                    <i class="bi bi-card-text"></i>
+                    <span>{{chofer.identificador}}</span>
+                </div>
+
+                <div class="info-item">
+                    <i class="bi bi-telephone-fill"></i>
+                    <span>{{chofer.telefono}}</span>
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="info-item">
+                    <i class="bi bi-envelope-fill"></i>
+                    <span>{{chofer.email}}</span>
+                </div>
+
+                <div class="info-item">
+                    <i class="bi bi-globe-americas"></i>
+                    <span>{{chofer.nacionalidad}}</span>
+                </div>
+
+                <div class="info-item">
+                    <i class="bi bi-car-front-fill"></i>
+                    <span>{{chofer.tipolicencia}}</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="text-center mt-4">
+
+            <button
+                class="btn btn-success rounded-pill px-4"
+                [routerLink]="['/']"
+            >
+                Volver
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

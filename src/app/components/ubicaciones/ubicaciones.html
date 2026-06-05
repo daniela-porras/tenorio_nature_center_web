@@ -1,0 +1,52 @@
+<section class="detail-header">
+
+    <div class="container">
+
+        <h1>{{ubicacion.nombre}}</h1>
+
+        <p>
+            Información de ubicación y punto de interés.
+        </p>
+
+    </div>
+
+</section>
+
+<div class="container py-5">
+
+    <div class="detail-card">
+
+        <div class="row g-4">
+
+            <div class="col-12">
+
+                <div class="info-item">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <span>{{ubicacion.nombre}}</span>
+                </div>
+
+                <div class="info-item">
+                    <i class="bi bi-map-fill"></i>
+                    <span>{{ubicacion.direccion}}</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="text-center mt-4">
+
+            <button
+                class="btn btn-success rounded-pill px-4"
+                [routerLink]="['/']"
+            >
+                Volver
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
