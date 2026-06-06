@@ -1,0 +1,66 @@
+<div class="login-page">
+    <div class="login-overlay"></div>
+    <div class="login-container">
+
+        <div class="text-center mb-4">
+            <h2 class="login-title">Registro</h2>
+            <p class="login-subtitle">Tenorio Nature Center</p>
+        </div>
+
+        @if(status===0){
+            <div class="alert alert-danger">
+                Error al registrar, intente de nuevo
+            </div>
+        }
+
+        <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control custom-input"
+                    name="nombre" #nombre="ngModel"
+                    [(ngModel)]="user.nombre" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Apellido</label>
+                <input type="text" class="form-control custom-input"
+                    name="apellido" #apellido="ngModel"
+                    [(ngModel)]="user.apellido">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Imagen</label>
+                <input type="file" class="form-control custom-input"
+                    name="imagen" (change)="uploadImage($event)">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Correo</label>
+                <input type="email" class="form-control custom-input"
+                    name="correo" #correo="ngModel"
+                    [(ngModel)]="user.correo" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                <input type="password" class="form-control custom-input"
+                    name="contrasena" #contrasena="ngModel"
+                    [(ngModel)]="user.contrasena" required>
+            </div>
+
+            <div class="d-grid">
+                <button class="btn btn-success login-btn" type="submit"
+                    [disabled]="registerForm.invalid">Registrarse</button>
+            </div>
+
+        </form>
+
+        <div class="text-center mt-3">
+            <a [routerLink]="['/login']" style="color:rgba(255,255,255,0.8)">
+                ¿Ya tenés cuenta? Iniciá sesión
+            </a>
+        </div>
+
+    </div>
+</div>
