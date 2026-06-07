@@ -3,17 +3,17 @@
         <h1>Administración de Facturas</h1>
     </div>
 </section>
-
+ 
 <div class="container py-5">
-
+ 
     @if(mensaje != ''){
         <div class="alert alert-success shadow-sm mb-4">
             {{mensaje}}
         </div>
     }
-
+ 
     <div class="card shadow p-4 mb-5">
-
+ 
         <h3>
             @if(modoEdicion){
                 Editar Factura
@@ -21,9 +21,50 @@
                 Nueva Factura
             }
         </h3>
-
+ 
         <div class="row g-3">
-
+ 
+            <div class="col-12">
+                <select class="form-select"
+                    [(ngModel)]="factura.idReserva"
+                    (ngModelChange)="onReservaChange()">
+                    <option [ngValue]="null">Seleccione Reserva</option>
+                    @for(reserva of reservas; track reserva.idreserva){
+                        <option [ngValue]="reserva.idreserva">
+                            Reserva #{{reserva.idreserva}} — {{reserva.clientenombres.String}}
+                        </option>
+                    }
+                </select>
+            </div>
+ 
+            @if(factura.idReserva){
+                <div class="col-12">
+                    @if(participantesReserva.length > 0){
+                        <div class="alert alert-info py-3">
+                            <strong>Seleccione los participantes a facturar:</strong>
+                            <div class="mt-2">
+                                @for(p of participantesReserva; track p.idparticipante){
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            [value]="p.idparticipante"
+                                            (change)="toggleParticipante(p.idparticipante, $event)">
+                                        <label class="form-check-label">
+                                            {{p.nombre || 'Participante #' + p.idparticipante}}
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }@else{
+                        <div class="alert alert-warning py-2">
+                            Todos los participantes de esta reserva ya tienen factura asignada.
+                        </div>
+                    }
+                </div>
+            }
+ 
             <div class="col-md-6">
                 <input
                     type="text"
@@ -31,44 +72,41 @@
                     placeholder="Número de Factura"
                     [(ngModel)]="factura.numeroFactura">
             </div>
-
+ 
             <div class="col-md-6">
                 <input
                     type="date"
                     class="form-control"
                     [(ngModel)]="factura.fechaFactura">
             </div>
-
+ 
             <div class="col-md-6">
-                <select class="form-select"
-                    [(ngModel)]="factura.metodoPago">
+                <select class="form-select" [(ngModel)]="factura.metodoPago">
                     <option [ngValue]="null">Seleccione Método de Pago</option>
                     @for(metodo of metodosPago; track $index){
-                        <option [value]="metodo">{{metodo}}</option>
+                        <option [ngValue]="metodo">{{metodo}}</option>
                     }
                 </select>
             </div>
-
+ 
             <div class="col-md-6">
-                <select class="form-select"
-                    [(ngModel)]="factura.moneda">
+                <select class="form-select" [(ngModel)]="factura.moneda">
                     <option [ngValue]="null">Seleccione Moneda</option>
                     @for(moneda of monedas; track $index){
-                        <option [value]="moneda">{{moneda}}</option>
+                        <option [ngValue]="moneda">{{moneda}}</option>
                     }
                 </select>
             </div>
-
+ 
             <div class="col-md-6">
-                <select class="form-select"
-                    [(ngModel)]="factura.idEstadoPago">
+                <select class="form-select" [(ngModel)]="factura.idEstadoPago">
                     <option [ngValue]="null">Seleccione Estado de Pago</option>
                     @for(estado of estadosPago; track estado.idestadopago){
-                        <option [value]="estado.idestadopago">{{estado.nombre}}</option>
+                        <option [ngValue]="estado.idestadopago">{{estado.nombre}}</option>
                     }
                 </select>
             </div>
-
+ 
             <div class="col-md-6">
                 <label class="form-label text-muted small">Fecha de Pago (opcional)</label>
                 <input
@@ -76,7 +114,7 @@
                     class="form-control"
                     [(ngModel)]="factura.fechaPago">
             </div>
-
+ 
             <div class="col-md-4">
                 <input
                     type="number"
@@ -85,7 +123,7 @@
                     [(ngModel)]="factura.subtotal"
                     (ngModelChange)="calcularTotal()">
             </div>
-
+ 
             <div class="col-md-4">
                 <input
                     type="number"
@@ -94,7 +132,7 @@
                     [(ngModel)]="factura.impuesto"
                     (ngModelChange)="calcularTotal()">
             </div>
-
+ 
             <div class="col-md-4">
                 <input
                     type="number"
@@ -103,7 +141,7 @@
                     [(ngModel)]="factura.descuento"
                     (ngModelChange)="calcularTotal()">
             </div>
-
+ 
             <div class="col-md-6">
                 <input
                     type="number"
@@ -112,28 +150,30 @@
                     [(ngModel)]="factura.precioTotal"
                     [readOnly]="true">
             </div>
-
+ 
             <div class="col-12">
                 <button class="btn btn-success me-2" (click)="guardarFactura()">
                     Guardar
                 </button>
-
+ 
                 @if(modoEdicion){
                     <button class="btn btn-secondary" (click)="cancelar()">
                         Cancelar
                     </button>
                 }
             </div>
-
+ 
         </div>
     </div>
-
+ 
     <table class="table table-hover table-striped">
         <thead>
             <tr>
                 <th>#</th>
                 <th>N° Factura</th>
                 <th>Fecha</th>
+                <th>Estado Pago</th>
+                <th>Fecha Pago</th>
                 <th>Método Pago</th>
                 <th>Moneda</th>
                 <th>Subtotal</th>
@@ -149,6 +189,8 @@
                     <td>{{f.idfactura}}</td>
                     <td>{{f.numerofactura}}</td>
                     <td>{{f.fechafactura | date:'dd/MM/yyyy'}}</td>
+                    <td>{{f.nombreestado}}</td>
+                    <td>{{f.fechapago?.Valid ? (f.fechapago.Time | date:'dd/MM/yyyy') : '-'}}</td>
                     <td>{{f.metodopago}}</td>
                     <td>{{f.moneda}}</td>
                     <td>{{f.subtotal}}</td>
@@ -171,28 +213,28 @@
             }
             @empty {
                 <tr>
-                    <td colspan="10" class="text-center text-muted py-3">
+                    <td colspan="11" class="text-center text-muted py-3">
                         No hay facturas registradas
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-
+ 
     <div class="mb-4">
         <a class="btn btn-back" [routerLink]="['/admin']">
             Regresar al panel
         </a>
     </div>
-
+ 
     <div class="modal fade"
         id="modalEliminarFactura"
         tabindex="-1"
         aria-hidden="true">
-
+ 
         <div class="modal-dialog">
             <div class="modal-content">
-
+ 
                 <div class="modal-header">
                     <h5 class="modal-title">Confirmar eliminación</h5>
                     <button
@@ -201,11 +243,11 @@
                         data-bs-dismiss="modal">
                     </button>
                 </div>
-
+ 
                 <div class="modal-body">
                     ¿Desea eliminar esta factura?
                 </div>
-
+ 
                 <div class="modal-footer">
                     <button
                         type="button"
@@ -221,9 +263,10 @@
                         Eliminar
                     </button>
                 </div>
-
+ 
             </div>
         </div>
     </div>
-
+ 
 </div>
+ 

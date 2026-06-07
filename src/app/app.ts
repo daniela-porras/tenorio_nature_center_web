@@ -39,7 +39,6 @@ export class App {
     this.loadGuias()
     this.loadUbicaciones()
     this.currentUser = _auth.currentUser
-    // ← quitar el bloque router.events
   }
 
   loadChoferes(){

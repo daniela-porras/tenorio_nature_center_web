@@ -29,6 +29,9 @@ export class FacturaService {
     getFacturaById(id: number): Observable<any> {
         return this._http.get(this.url + 'factura/' + id);
     }
+    getReservasConFactura(): Observable<any> {
+    return this._http.get(this.url + 'factura/reservas-facturadas');
+    }
 
     createFactura(data: any): Observable<any> {
         return this._http.post(
