@@ -44,4 +44,51 @@ export class GuiaService{
         );
     }
 
+    createGuia(data:any):Observable<any>{
+
+    const token = sessionStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+        'Content-Type':'application/json',
+        'Authorization':'Bearer ' + token
+    });
+
+    return this._http.post(
+        this.url + 'guia',
+        data,
+        { headers }
+    );
+}
+
+    updateGuia(data:any):Observable<any>{
+
+    const token = sessionStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+        'Content-Type':'application/json',
+        'Authorization':'Bearer ' + token
+    });
+
+    return this._http.put(
+        this.url + 'guia',
+        data,
+        { headers }
+    );
+}
+
+    deleteGuia(id:number):Observable<any>{
+
+    const token = sessionStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+        'Content-Type':'application/json',
+        'Authorization':'Bearer ' + token
+    });
+
+    return this._http.delete(
+        this.url + 'guia/' + id,
+        { headers }
+    );
+}
+
 }
