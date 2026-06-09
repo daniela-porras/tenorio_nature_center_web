@@ -15,6 +15,8 @@ import { ReservasAdmin } from './components/admin/reservas-admin/reservas-admin'
 import { Registro } from './components/registro/registro';
 import { UsuariosAdmin } from './components/admin/usuarios-admin/usuarios-admin';
 import { UbicacionesAdmin } from './components/admin/ubicaciones-admin/ubicaciones-admin';
+import { GuiasAdmin } from './components/admin/guias-admin/guias-admin';
+import { IdiomasAdmin } from './components/admin/idiomas-admin/idiomas-admin';
 
 export const routes: Routes = [
     //Público
@@ -35,6 +37,8 @@ export const routes: Routes = [
     { path: 'admin/reservas', component: ReservasAdmin},
     { path: 'admin/usuarios', component: UsuariosAdmin },
     { path: 'admin/ubicaciones', component: UbicacionesAdmin },
+    { path: 'admin/guias', component: GuiasAdmin },
+    { path: 'admin/idiomas', component: IdiomasAdmin },
     //Registro
     { path: '',component:Home},
     { path: 'login',component:Login},
