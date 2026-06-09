@@ -12,6 +12,8 @@ import { ToursAdmin } from './components/admin/tours-admin/tours-admin';
 import { Guias } from './components/guias/guias';
 import { Ubicaciones } from './components/ubicaciones/ubicaciones';
 import { ReservasAdmin } from './components/admin/reservas-admin/reservas-admin';
+import { FacturasAdmin } from './components/admin/facturas-admin/facturas-admin';
+import { ChoferAdmin } from './components/admin/chofer-admin/chofer-admin';
 import { Registro } from './components/registro/registro';
 import { UsuariosAdmin } from './components/admin/usuarios-admin/usuarios-admin';
 import { UbicacionesAdmin } from './components/admin/ubicaciones-admin/ubicaciones-admin';
@@ -35,6 +37,8 @@ export const routes: Routes = [
     { path: 'admin', component: Admin},
     { path: 'admin/tours', component: ToursAdmin},
     { path: 'admin/reservas', component: ReservasAdmin},
+    { path: 'admin/facturas', component: FacturasAdmin },
+    { path: 'admin/choferes', component: ChoferAdmin },
     { path: 'admin/usuarios', component: UsuariosAdmin },
     { path: 'admin/ubicaciones', component: UbicacionesAdmin },
     { path: 'admin/vehiculos', component: VehiculosAdmin },

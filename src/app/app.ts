@@ -15,13 +15,15 @@ import { enviroment } from './enviroments';
   styleUrl: './app.css'
 })
 export class App {
-  public choferes:any
-  public tours:any
-  public vehiculos:any
-  public guias:any
-  public ubicaciones:any
+
+  public choferes: any
+  public tours: any
+  public vehiculos: any
+  public guias: any
+  public ubicaciones: any
   protected readonly title = signal('TenorioNatureCenterWeb');
   public currentUser
+
   public url:string = enviroment.apiUrl;
   constructor(
     private choferService: ChoferService,
@@ -31,7 +33,7 @@ export class App {
     private ubicacionService: UbicacionService,
     private _auth: AuthService,
     public authService: AuthService,
-    public router:Router
+    public router: Router
   ){
     this.loadChoferes()
     this.loadTours()
@@ -40,7 +42,6 @@ export class App {
     this.loadUbicaciones()
     this.currentUser = _auth.currentUser
   }
-
 
   loadChoferes(){
     this.choferService.getChoferes().subscribe({
@@ -88,7 +89,6 @@ export class App {
         console.log('Error --->', err);
       }
     });
-
   }
 
   loadUbicaciones(){
@@ -102,6 +102,5 @@ export class App {
       }
     });
   }
-  
 
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { enviroment } from '../enviroments';
 
@@ -8,18 +8,43 @@ import { enviroment } from '../enviroments';
 })
 export class IdiomaGuiaService {
 
-  private url:string;
+  private url: string;
 
-  constructor(private http:HttpClient){
+  constructor(private http: HttpClient) {
     this.url = enviroment.apiUrl;
   }
 
-  getIdiomasByGuia(id:number):Observable<any>{
-
+  getIdiomasByGuia(id: number): Observable<any> {
     return this.http.get(
       this.url + 'idiomaguia/guia/' + id
     );
+  }
 
+  private getHeaders(): HttpHeaders {
+    const token = sessionStorage.getItem('token');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    });
+  }
+
+  getIdiomaGuiaById(id: number): Observable<any> {
+    return this.http.get(this.url + 'idiomaguia/' + id);
+  }
+
+  createIdiomaGuia(data: any): Observable<any> {
+    return this.http.post(
+      this.url + 'idiomaguia',
+      data,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  deleteIdiomaGuia(id: number): Observable<any> {
+    return this.http.delete(
+      this.url + 'idiomaguia/' + id,
+      { headers: this.getHeaders() }
+    );
   }
 
 }

@@ -6,7 +6,7 @@ import { enviroment } from "../enviroments";
 @Injectable({
     providedIn: 'root'
 })
-export class ChoferService {
+export class FacturaService {
 
     private url: string;
 
@@ -22,33 +22,36 @@ export class ChoferService {
         });
     }
 
-    getChoferes(): Observable<any> {
-        return this._http.get(this.url + 'chofer', { headers: this.getHeaders() });
+    getFacturas(): Observable<any> {
+        return this._http.get(this.url + 'factura');
     }
 
-    getChoferById(id: number): Observable<any> {
-        return this._http.get(this.url + 'chofer/' + id, { headers: this.getHeaders() });
+    getFacturaById(id: number): Observable<any> {
+        return this._http.get(this.url + 'factura/' + id);
+    }
+    getReservasConFactura(): Observable<any> {
+    return this._http.get(this.url + 'factura/reservas-facturadas');
     }
 
-    createChofer(data: any): Observable<any> {
+    createFactura(data: any): Observable<any> {
         return this._http.post(
-            this.url + 'chofer',
+            this.url + 'factura',
             data,
             { headers: this.getHeaders() }
         );
     }
 
-    updateChofer(data: any): Observable<any> {
+    updateFactura(data: any): Observable<any> {
         return this._http.put(
-            this.url + 'chofer',
+            this.url + 'factura',
             data,
             { headers: this.getHeaders() }
         );
     }
 
-    deleteChofer(id: number): Observable<any> {
+    deleteFactura(id: number): Observable<any> {
         return this._http.delete(
-            this.url + 'chofer/' + id,
+            this.url + 'factura/' + id,
             { headers: this.getHeaders() }
         );
     }
