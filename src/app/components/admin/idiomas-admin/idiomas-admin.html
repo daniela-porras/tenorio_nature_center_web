@@ -1,159 +1,216 @@
 <section class="admin-header">
-
     <div class="container">
-
         <h1>Administración de Idiomas</h1>
-
     </div>
-
 </section>
 
 <div class="container py-5">
 
-     @if(mensaje){
-
+    @if(mensaje){
     <div class="alert alert-success shadow-sm mb-4">
-
-        {{mensaje}}
-
+        {{ mensaje }}
     </div>
-
     }
 
+    <!-- FORMULARIO -->
     <div class="card shadow p-4 mb-5">
 
-        <h3>
-
+        <h3 class="mb-1">
             @if(editando){
-
-                Editar Idioma
-
+                Editar idioma
             }@else{
-
-                Nuevo Idioma
-
+                Nuevo idioma
             }
-
         </h3>
 
-        <div class="row g-3">
+        <p class="text-muted small mb-4">
+            @if(editando){
+                Modificá la información del idioma seleccionado.
+            }@else{
+                Registrá un nuevo idioma disponible para los tours.
+            }
+        </p>
+
+        <p class="form-section-label">
+            Datos del idioma
+        </p>
+
+        <div class="row g-3 mb-4">
 
             <div class="col-md-6">
+
+                <label class="form-label fw-semibold">
+                    Nombre del idioma
+                </label>
+
                 <input
                     class="form-control"
                     name="nombre"
-                    placeholder="Nombre"
+                    placeholder="Ej: Español"
                     [(ngModel)]="idioma.nombre">
-            </div>
-            <div class="col-12">
-
-                <button
-                    class="btn btn-success me-2"
-                    (click)="guardarIdioma()">
-
-                    Guardar
-
-                </button>
-
-                @if(editando){
-
-                    <button
-                        class="btn btn-secondary"
-                        (click)="cancelar()">
-
-                        Cancelar
-
-                    </button>
-
-                }
 
             </div>
 
         </div>
 
-    </div>
+        <div class="d-flex gap-2">
 
-    <table class="table table-hover table-striped">
+            <button
+                class="btn btn-success"
+                (click)="guardarIdioma()">
 
-        <thead>
+                {{ editando ? 'Actualizar idioma' : 'Guardar idioma' }}
 
-            <tr>
+            </button>
 
-                <th>ID</th>
-                <th>Nombre</th>
-                <th></th>
+            @if(editando){
 
-            </tr>
+            <button
+                class="btn btn-secondary"
+                (click)="cancelar()">
 
-        </thead>
+                Cancelar
 
-        <tbody>
-
-            @for(item of idiomas; track $index){
-
-                <tr>
-
-                    <td>{{item.ididioma}}</td>
-
-                    <td>{{item.nombre}}</td>
-
-                    <td>
-
-                        <button
-                            class="btn btn-edit btn-sm me-2"
-                            (click)="editarIdioma(item)">
-
-                            Editar
-
-                        </button>
-
-                        <button
-                            class="btn btn-delete btn-sm"
-                            (click)="seleccionarIdiomaEliminar(item.ididioma)"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modalEliminarIdioma">
-
-                            Eliminar
-
-                        </button>
-
-                    </td>
-
-                </tr>
+            </button>
 
             }
 
-        </tbody>
+        </div>
 
-    </table>
+    </div>
 
-    <div class="mb-4">
+    <!-- TABLA -->
+    <div class="card shadow p-4">
 
-    <a
-        class="btn btn-back"
-        [routerLink]="['/admin']"
-    >
-        Regresar al panel
-    </a>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+
+                <h3 class="mb-0">
+                    Idiomas registrados
+                </h3>
+
+                <p class="text-muted small mb-0">
+                    {{ idiomas.length }} registros
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+                        <th style="width:80px">ID</th>
+                        <th>Nombre</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @for(item of idiomas; track $index){
+
+                    <tr>
+
+                        <td class="text-muted small">
+                            {{ item.ididioma }}
+                        </td>
+
+                        <td class="fw-semibold">
+                            {{ item.nombre }}
+                        </td>
+
+                        <td class="text-end">
+
+                            <div class="d-flex gap-2 justify-content-end">
+
+                                <button
+                                    class="btn btn-edit btn-sm px-2"
+                                    (click)="editarIdioma(item)"
+                                    title="Editar">
+
+                                    <i class="bi bi-pencil"></i>
+
+                                </button>
+
+                                <button
+                                    class="btn btn-delete btn-sm px-2"
+                                    (click)="seleccionarIdiomaEliminar(item.ididioma)"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarIdioma"
+                                    title="Eliminar">
+
+                                    <i class="bi bi-trash"></i>
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    }
+
+                    @empty{
+
+                    <tr>
+
+                        <td
+                            colspan="3"
+                            class="text-center text-muted py-4">
+
+                            No hay idiomas registrados
+
+                        </td>
+
+                    </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="mt-3 pt-3 border-top">
+
+            <a
+                class="btn btn-back"
+                [routerLink]="['/admin']">
+
+                Regresar al panel
+
+            </a>
+
+        </div>
+
+    </div>
 
 </div>
 
+<!-- MODAL -->
 <div
     class="modal fade"
     id="modalEliminarIdioma"
     tabindex="-1"
     aria-hidden="true">
 
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
 
-        <div class="modal-content">
+        <div class="modal-content rounded-4">
 
             <div class="modal-header">
 
-                <h5 class="modal-title">
-
+                <h5 class="modal-title fw-semibold">
                     Confirmar eliminación
-
                 </h5>
 
                 <button
@@ -164,7 +221,7 @@
 
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body text-muted">
 
                 ¿Desea eliminar este idioma?
 
@@ -183,7 +240,7 @@
 
                 <button
                     type="button"
-                    class="btn btn-danger"
+                    class="btn btn-delete"
                     data-bs-dismiss="modal"
                     (click)="confirmarEliminarIdioma()">
 
@@ -196,7 +253,5 @@
         </div>
 
     </div>
-
-</div>
 
 </div>

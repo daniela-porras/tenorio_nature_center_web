@@ -93,3 +93,25 @@
     border-color: #1f2937;
     color: white;
 }
+
+.btn-sm.px-2 {
+  width: 34px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+}
+
+.estado-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.admin { background: #d1fae5; color: #14532d; }
+.cliente  { background: #fef3c7; color: #78350f; }

@@ -7,101 +7,268 @@
 <div class="container py-5">
 
     @if(mensaje){
-        <div class="alert alert-success shadow-sm mb-4">
-            {{mensaje}}
-        </div>
+    <div class="alert alert-success shadow-sm mb-4">
+        {{ mensaje }}
+    </div>
     }
 
+    <!-- FORMULARIO -->
     <div class="card shadow p-4 mb-5">
-        <h3>
-            @if(editando){ Editar Ubicación }@else{ Nueva Ubicación }
+
+        <h3 class="mb-1">
+            @if(editando){
+                Editar ubicación
+            }@else{
+                Nueva ubicación
+            }
         </h3>
 
-        <div class="row g-3">
-
-            <div class="col-md-6">
-                <input class="form-control" name="nombre" placeholder="Nombre"
-                    [(ngModel)]="ubicacion.nombre">
-            </div>
-
-            <div class="col-md-6">
-                <input class="form-control" name="direccion" placeholder="Dirección"
-                    [(ngModel)]="ubicacion.direccion">
-            </div>
-
-            <div class="col-12">
-                <button class="btn btn-success me-2" (click)="guardarUbicacion()">
-                    Guardar
-                </button>
-                @if(editando){
-                    <button class="btn btn-secondary" (click)="cancelar()">
-                        Cancelar
-                    </button>
-                }
-            </div>
-
-        </div>
-    </div>
-
-    <table class="table table-hover table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Dirección</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @for(item of ubicaciones; track $index){
-                <tr>
-                    <td>{{item.idubicacion}}</td>
-                    <td>{{item.nombre}}</td>
-                    <td>{{item.direccion}}</td>
-                    <td>
-                        <button class="btn btn-edit btn-sm me-2"
-                            (click)="editarUbicacion(item)">
-                            Editar
-                        </button>
-                        <button class="btn btn-delete btn-sm"
-                            (click)="seleccionarUbicacionEliminar(item.idubicacion)"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modalEliminarUbicacion">
-                            Eliminar
-                        </button>
-                    </td>
-                </tr>
+        <p class="text-muted small mb-4">
+            @if(editando){
+                Modificá la información de la ubicación seleccionada.
+            }@else{
+                Registrá una nueva ubicación disponible para tours y reservas.
             }
-        </tbody>
-    </table>
+        </p>
 
-    <div class="mb-4">
-        <a class="btn btn-back" [routerLink]="['/admin']">
-            Regresar al panel
-        </a>
+        <p class="form-section-label">
+            Datos de la ubicación
+        </p>
+
+        <div class="row g-3 mb-4">
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-semibold">
+                    Nombre
+                </label>
+
+                <input
+                    class="form-control"
+                    placeholder="Nombre de la ubicación"
+                    [(ngModel)]="ubicacion.nombre">
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-semibold">
+                    Dirección
+                </label>
+
+                <input
+                    class="form-control"
+                    placeholder="Dirección completa"
+                    [(ngModel)]="ubicacion.direccion">
+
+            </div>
+
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <button
+                class="btn btn-success"
+                (click)="guardarUbicacion()">
+
+                {{ editando ? 'Actualizar ubicación' : 'Guardar ubicación' }}
+
+            </button>
+
+            @if(editando){
+
+            <button
+                class="btn btn-secondary"
+                (click)="cancelar()">
+
+                Cancelar
+
+            </button>
+
+            }
+
+        </div>
+
     </div>
 
-    <div class="modal fade" id="modalEliminarUbicacion" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirmar eliminación</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    ¿Desea eliminar esta ubicación?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Cancelar
-                    </button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                        (click)="confirmarEliminarUbicacion()">
-                        Eliminar
-                    </button>
-                </div>
+    <!-- TABLA -->
+    <div class="card shadow p-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+
+                <h3 class="mb-0">
+                    Ubicaciones registradas
+                </h3>
+
+                <p class="text-muted small mb-0">
+                    {{ ubicaciones.length }} registros
+                </p>
+
             </div>
+
         </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+                        <th style="width:80px">ID</th>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @for(item of ubicaciones; track $index){
+
+                    <tr>
+
+                        <td class="text-muted small">
+                            {{ item.idubicacion }}
+                        </td>
+
+                        <td class="fw-semibold">
+                            {{ item.nombre }}
+                        </td>
+
+                        <td class="text-muted">
+                            {{ item.direccion }}
+                        </td>
+
+                        <td class="text-end">
+
+                            <div class="d-flex gap-2 justify-content-end">
+
+                                <button
+                                    class="btn btn-edit btn-sm px-2"
+                                    (click)="editarUbicacion(item)"
+                                    title="Editar">
+
+                                    <i class="bi bi-pencil"></i>
+
+                                </button>
+
+                                <button
+                                    class="btn btn-delete btn-sm px-2"
+                                    (click)="seleccionarUbicacionEliminar(item.idubicacion)"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarUbicacion"
+                                    title="Eliminar">
+
+                                    <i class="bi bi-trash"></i>
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    }
+
+                    @empty{
+
+                    <tr>
+
+                        <td
+                            colspan="4"
+                            class="text-center text-muted py-4">
+
+                            No hay ubicaciones registradas
+
+                        </td>
+
+                    </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="mt-3 pt-3 border-top">
+
+            <a
+                class="btn btn-back"
+                [routerLink]="['/admin']">
+
+                Regresar al panel
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL -->
+<div
+    class="modal fade"
+    id="modalEliminarUbicacion"
+    tabindex="-1"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-sm">
+
+        <div class="modal-content rounded-4">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title fw-semibold">
+                    Confirmar eliminación
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body text-muted">
+
+                ¿Desea eliminar esta ubicación?
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+
+                    Cancelar
+
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-delete"
+                    data-bs-dismiss="modal"
+                    (click)="confirmarEliminarUbicacion()">
+
+                    Eliminar
+
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>

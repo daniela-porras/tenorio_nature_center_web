@@ -403,4 +403,7 @@ export class ReservasAdmin implements OnInit {
 
 }
 
+getEstadoClass(estado: string): string {
+  return estado?.toLowerCase().replace(/ /g, '-') ?? '';
+}
 }

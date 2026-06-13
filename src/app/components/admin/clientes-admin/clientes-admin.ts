@@ -78,6 +78,7 @@ export class ClientesAdmin implements OnInit {
         console.log('EMPRESAS', response);
 
         this.empresas = response;
+        this.cdr.detectChanges();
 
       },
 

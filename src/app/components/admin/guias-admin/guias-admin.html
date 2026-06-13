@@ -1,157 +1,199 @@
 <section class="admin-header">
-    <div class="container">
-        <h1>Administración de Guias</h1>
-    </div>
+  <div class="container">
+    <h1>Administración de Guías</h1>
+  </div>
 </section>
 
 <div class="container py-5">
 
-    @if(mensaje){
-    <div class="alert alert-success shadow-sm mb-4">
-        {{mensaje}}
-    </div>
-    }
+  @if(mensaje){
+  <div class="alert alert-success shadow-sm mb-4">
+    {{ mensaje }}
+  </div>
+  }
 
-    <div class="card shadow p-4 mb-5">
-        <h3>
-            @if(editando){
-            Editar Guia
-            }@else{
-            Nuevo Guia
-            }
-        </h3>
-        <div class="row g-3">
-            <div class="col-md-6">
-                <input class="form-control" name="nombre" placeholder="Nombre" [(ngModel)]="guia.nombre">
-            </div>
-            <div class="col-md-6">
-                <input class="form-control" name="identificador" placeholder="Identificador" [(ngModel)]="guia.identificador">
-            </div>
-            <div class="col-md-6">
-                <input type="date" class="form-control" name="fechanac" [(ngModel)]="guia.fechanac">
-            </div>
-            <div class="col-md-6">
-                <input type="number" class="form-control" name="telefono" placeholder="Teléfono" [(ngModel)]="guia.telefono">
-            </div>
-            <div class="col-6">
-                <input class="form-control" name="nacionalidad" placeholder="Nacionalidad" [(ngModel)]="guia.nacionalidad">
-            </div>
-            <div class="col-6">
-                <input class="form-control" name="email" placeholder="Correo electrónico" [(ngModel)]="guia.email">
-            </div>
-            <div class="col-12">
-                <button class="btn btn-success me-2" (click)="guardarGuia()">Guardar</button>
-                @if(editando){
-                <button class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
-                }
-            </div>
-        </div>
+  <div class="card shadow p-4 mb-5">
+
+    <h3 class="mb-1">
+      @if(editando){ Editar guía } @else { Nuevo guía }
+    </h3>
+    <p class="text-muted small mb-4">
+      @if(editando){ Modificá los datos del guía seleccionado. } @else { Completá todos los campos para registrar un nuevo guía. }
+    </p>
+
+    <div class="row g-3 mb-3">
+      <div class="col-md-8">
+        <label class="form-label fw-semibold">Nombre completo</label>
+        <input class="form-control" name="nombre" placeholder="Ej. Andrea Morales" [(ngModel)]="guia.nombre">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Identificación</label>
+        <input class="form-control" name="identificador" placeholder="1-2345-6789" [(ngModel)]="guia.identificador">
+      </div>
     </div>
-    
-    <table class="table table-hover table-striped">
+
+    <div class="row g-3 mb-3">
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Fecha de nacimiento</label>
+        <input type="date" class="form-control" name="fechanac" [(ngModel)]="guia.fechanac">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Teléfono</label>
+        <input type="number" class="form-control" name="telefono" placeholder="88880000" [(ngModel)]="guia.telefono">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Nacionalidad</label>
+        <input class="form-control" name="nacionalidad" placeholder="Costarricense" [(ngModel)]="guia.nacionalidad">
+      </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Correo electrónico</label>
+        <input class="form-control" name="email" type="email" placeholder="correo@ejemplo.com" [(ngModel)]="guia.email">
+      </div>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button class="btn btn-success" (click)="guardarGuia()">
+        {{ editando ? 'Actualizar guía' : 'Guardar guía' }}
+      </button>
+      @if(editando){
+      <button class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+      }
+    </div>
+
+  </div>
+
+  <div class="card shadow p-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h3 class="mb-0">Guías registrados</h3>
+        <p class="text-muted small mb-0">{{ guias.length }} registros</p>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
         <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Fecha de Nacimiento</th>
-                <th>Teléfono</th>
-                <th>Nacionalidad</th>
-                <th>Correo Electrónico</th>
-                <th></th>
-            </tr>
+          <tr>
+            <th style="width:42px">#</th>
+            <th>Nombre</th>
+            <th>Nacimiento</th>
+            <th>Teléfono</th>
+            <th>Correo</th>
+            <th class="text-end">Acciones</th>
+          </tr>
         </thead>
         <tbody>
-            @for(item of guias; track $index){
-            <tr>
-                <td>{{item.idguia}}</td>
-                <td>{{item.nombre}}</td>
-                <td>{{ item.fechanac | date:'yyyy-MM-dd' }}</td>
-                <td>{{item.telefono}}</td>
-                <td>{{item.nacionalidad}}</td>
-                <td>{{item.email}}</td>
-                <td>
-                    <button class="btn btn-edit btn-sm me-2" (click)="editarGuia(item)">
-                        Editar
-                    </button>
-                    <button class="btn btn-delete btn-sm me-2"
-                        (click)="seleccionarGuiaEliminar(item.idguia)"
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalEliminarGuia">
-                        Eliminar
-                    </button>
-                    <button class="btn btn-info btn-sm"
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalIdiomas"
-                        (click)="gestionarIdiomas(item)">
-                        <i class="bi bi-translate"></i> Idiomas
-                    </button>
-                </td>
-            </tr>
-            }
+          @for(item of guias; track $index){
+          <tr>
+            <td class="text-muted small">{{ item.idguia }}</td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <div>
+                  <div class="fw-semibold lh-sm">{{ item.nombre }}</div>
+                  <div class="text-muted small">{{ item.nacionalidad }}</div>
+                </div>
+              </div>
+            </td>
+            <td class="text-muted">{{ item.fechanac | date:'dd/MM/yyyy' }}</td>
+            <td>{{ item.telefono }}</td>
+            <td class="text-muted small" style="max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">
+              {{ item.email }}
+            </td>
+            <td class="text-end">
+            <div class="d-flex gap-2 justify-content-end">
+                <button class="btn btn-edit btn-sm px-2" (click)="editarGuia(item)" title="Editar">
+                <i class="bi bi-pencil"></i>
+                </button>
+                <button
+                class="btn btn-sm px-2"
+                style="background-color:#1f4d3a; border-color:#1f4d3a; color:white;"
+                data-bs-toggle="modal"
+                data-bs-target="#modalIdiomas"
+                (click)="gestionarIdiomas(item)"
+                title="Idiomas">
+                <i class="bi bi-translate"></i>
+                </button>
+                <button
+                class="btn btn-delete btn-sm px-2"
+                (click)="seleccionarGuiaEliminar(item.idguia)"
+                data-bs-toggle="modal"
+                data-bs-target="#modalEliminarGuia"
+                title="Eliminar">
+                <i class="bi bi-trash"></i>
+                </button>
+            </div>
+            </td>
+          </tr>
+          }
         </tbody>
-    </table>
-
-    <div class="mb-4">
-        <a class="btn btn-back" [routerLink]="['/admin']">Regresar al panel</a>
+      </table>
     </div>
 
-    <!-- MODAL IDIOMAS -->
-    <div class="modal fade" id="modalIdiomas" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Idiomas de {{ guiaSeleccionado?.nombre }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="d-flex gap-2 mb-3">
-                        <select class="form-select" [(ngModel)]="idiomaSeleccionado">
-                            <option value="0">Seleccione un idioma</option>
-                            @for(idioma of idiomas; track idioma.ididioma){
-                            <option [value]="idioma.ididioma">{{ idioma.nombre }}</option>
-                            }
-                        </select>
-                        <button class="btn btn-success" (click)="agregarIdioma()" [disabled]="!idiomaSeleccionado">
-                            Agregar
-                        </button>
-                    </div>
-                    <ul class="list-group">
-                        @for(ig of idiomasDelGuia; track ig.ididiomaguia){
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ ig.nombreidioma }}
-                            <button class="btn btn-sm btn-danger" (click)="eliminarIdioma(ig.ididiomaguia)">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </li>
-                        }
-                        @if(idiomasDelGuia.length === 0){
-                        <li class="list-group-item text-muted">Sin idiomas asignados</li>
-                        }
-                    </ul>
-                </div>
-            </div>
+    <div class="mt-3 pt-3 border-top">
+      <a class="btn btn-back" [routerLink]="['/admin']">Regresar al panel</a>
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="modal fade" id="modalIdiomas" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content rounded-4">
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Idiomas de: {{ guiaSeleccionado?.nombre }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex gap-2 mb-3">
+          <select class="form-control" [(ngModel)]="idiomaSeleccionado">
+            <option value="0">Seleccione un idioma</option>
+            @for(idioma of idiomas; track idioma.ididioma){
+            <option [value]="idioma.ididioma">{{ idioma.nombre }}</option>
+            }
+          </select>
+          <button class="btn btn-success" (click)="agregarIdioma()" [disabled]="!idiomaSeleccionado">
+            Agregar
+          </button>
         </div>
+        <ul class="list-group">
+          @for(ig of idiomasDelGuia; track ig.ididiomaguia){
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ ig.idiomanombre }}
+            <button class="btn btn-delete btn-sm" (click)="eliminarIdioma(ig.ididiomaguia)">Eliminar</button>
+          </li>
+          }
+          @if((idiomasDelGuia?.length ?? 0) == 0){
+          <li class="list-group-item text-muted text-center py-3">Sin idiomas asignados</li>
+          }
+        </ul>
+      </div>
     </div>
+  </div>
+</div>
 
-    <!-- MODAL ELIMINAR GUIA -->
-    <div class="modal fade" id="modalEliminarGuia" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirmar eliminación</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    ¿Desea eliminar este guía?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="confirmarEliminarGuia()">
-                        Eliminar
-                    </button>
-                </div>
-            </div>
-        </div>
+
+<div class="modal fade" id="modalEliminarGuia" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content rounded-4">
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Confirmar eliminación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-muted">
+        ¿Desea eliminar este guía?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-delete" data-bs-dismiss="modal" (click)="confirmarEliminarGuia()">
+          Eliminar
+        </button>
+      </div>
     </div>
-
+  </div>
 </div>

@@ -1,63 +1,110 @@
 <section class="admin-header">
-
     <div class="container">
-
         <h1>Administración de Vehículos</h1>
-
     </div>
-
 </section>
 
 <div class="container py-5">
 
     @if(mensaje){
-
     <div class="alert alert-success shadow-sm mb-4">
-
-        {{mensaje}}
-
+        {{ mensaje }}
     </div>
-
     }
 
+    <!-- FORMULARIO -->
     <div class="card shadow p-4 mb-5">
 
-        <h3>
-
+        <h3 class="mb-1">
             @if(editando){
-
-                Editar Vehículo
-
+                Editar vehículo
             }@else{
-
-                Nuevo Vehículo
-
+                Nuevo vehículo
             }
-
         </h3>
 
-        <div class="row g-3">
+        <p class="text-muted small mb-4">
+            @if(editando){
+                Modificá la información del vehículo seleccionado.
+            }@else{
+                Registrá un nuevo vehículo para la operación de tours.
+            }
+        </p>
+
+        <!-- INFORMACIÓN DEL VEHÍCULO -->
+        <p class="form-section-label">
+            Información del vehículo
+        </p>
+
+        <div class="row g-3 mb-4">
 
             <div class="col-md-6">
 
-                <label>Chofer</label>
+                <label class="form-label fw-semibold">
+                    Matrícula
+                </label>
+
+                <input
+                    class="form-control"
+                    placeholder="ABC-123"
+                    [(ngModel)]="vehiculo.matricula">
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-semibold">
+                    Modelo
+                </label>
+
+                <input
+                    class="form-control"
+                    placeholder="Toyota Hiace"
+                    [(ngModel)]="vehiculo.modelo">
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-semibold">
+                    Capacidad
+                </label>
+
+                <input
+                    type="number"
+                    class="form-control"
+                    placeholder="Cantidad de pasajeros"
+                    [(ngModel)]="vehiculo.capacidad">
+
+            </div>
+
+        </div>
+
+        <!-- CHOFER -->
+        <p class="form-section-label">
+            Asignación de chofer
+        </p>
+
+        <div class="row g-3 mb-4">
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-semibold">
+                    Chofer asignado
+                </label>
 
                 <select
                     class="form-control"
                     [(ngModel)]="vehiculo.idChofer">
 
                     <option [ngValue]="null">
-
-                        Seleccione
-
+                        Seleccione un chofer
                     </option>
 
                     @for(chofer of choferes; track $index){
 
                     <option [ngValue]="chofer.idchofer">
-
-                        {{chofer.nombre}}
-
+                        {{ chofer.nombre }}
                     </option>
 
                     }
@@ -66,162 +113,192 @@
 
             </div>
 
-            <div class="col-md-6">
+        </div>
 
-                <label>Matrícula</label>
+        <div class="d-flex gap-2">
 
-                <input
-                    class="form-control"
-                    [(ngModel)]="vehiculo.matricula">
+            <button
+                class="btn btn-success"
+                (click)="guardarVehiculo()">
 
-            </div>
+                {{ editando ? 'Actualizar vehículo' : 'Guardar vehículo' }}
 
-            <div class="col-md-6">
+            </button>
 
-                <label>Capacidad</label>
+            @if(editando){
 
-                <input
-                    type="number"
-                    class="form-control"
-                    [(ngModel)]="vehiculo.capacidad">
+            <button
+                class="btn btn-secondary"
+                (click)="cancelar()">
 
-            </div>
+                Cancelar
 
-            <div class="col-md-6">
+            </button>
 
-                <label>Modelo</label>
-
-                <input
-                    class="form-control"
-                    [(ngModel)]="vehiculo.modelo">
-
-            </div>
-
-            <div class="col-12">
-
-                <button
-                    class="btn btn-success me-2"
-                    (click)="guardarVehiculo()">
-
-                    Guardar
-
-                </button>
-
-                @if(editando){
-
-                <button
-                    class="btn btn-secondary"
-                    (click)="cancelar()">
-
-                    Cancelar
-
-                </button>
-
-                }
-
-            </div>
+            }
 
         </div>
 
     </div>
 
-    <table class="table table-hover table-striped">
+    <!-- TABLA -->
+    <div class="card shadow p-4">
 
-        <thead>
+        <div class="d-flex justify-content-between align-items-center mb-4">
 
-            <tr>
+            <div>
 
-                <th>ID</th>
-                <th>Matrícula</th>
-                <th>Modelo</th>
-                <th>Capacidad</th>
-                <th>Chofer</th>
-                <th></th>
+                <h3 class="mb-0">
+                    Vehículos registrados
+                </h3>
 
-            </tr>
+                <p class="text-muted small mb-0">
+                    {{ vehiculos.length }} registros
+                </p>
 
-        </thead>
+            </div>
 
-        <tbody>
+        </div>
 
-            @for(item of vehiculos; track $index){
+        <div class="table-responsive">
 
-            <tr>
+            <table class="table table-hover align-middle">
 
-                <td>{{item.idvehiculo}}</td>
+                <thead>
 
-                <td>{{item.matricula}}</td>
+                    <tr>
+                        <th style="width:80px">ID</th>
+                        <th>Matrícula</th>
+                        <th>Modelo</th>
+                        <th>Capacidad</th>
+                        <th>Chofer</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
 
-                <td>{{item.modelo}}</td>
+                </thead>
 
-                <td>{{item.capacidad}}</td>
+                <tbody>
 
-                <td>{{item.nombre_chofer}}</td>
+                    @for(item of vehiculos; track $index){
 
-                <td>
+                    <tr>
 
-                    <button
-                        class="btn btn-edit btn-sm me-2"
-                        (click)="editarVehiculo(item)">
+                        <td class="text-muted small">
+                            {{ item.idvehiculo }}
+                        </td>
 
-                        Editar
+                        <td class="fw-semibold">
+                            {{ item.matricula }}
+                        </td>
 
-                    </button>
+                        <td>
+                            {{ item.modelo }}
+                        </td>
 
-                    <button
-                        class="btn btn-delete btn-sm"
-                        (click)="seleccionarVehiculoEliminar(item.idvehiculo)"
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalEliminarVehiculo">
+                        <td>
+                            {{ item.capacidad }} pasajeros
+                        </td>
 
-                        Eliminar
+                        <td class="text-muted">
+                            {{ item.nombre_chofer }}
+                        </td>
 
-                    </button>
+                        <td class="text-end">
 
-                </td>
+                            <div class="d-flex gap-2 justify-content-end">
 
-            </tr>
+                                <button
+                                    class="btn btn-edit btn-sm px-2"
+                                    (click)="editarVehiculo(item)"
+                                    title="Editar">
 
-            }
+                                    <i class="bi bi-pencil"></i>
 
-        </tbody>
+                                </button>
 
-    </table>
+                                <button
+                                    class="btn btn-delete btn-sm px-2"
+                                    (click)="seleccionarVehiculoEliminar(item.idvehiculo)"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarVehiculo"
+                                    title="Eliminar">
 
-    <div class="mb-4">
+                                    <i class="bi bi-trash"></i>
 
-        <a
-            class="btn btn-back"
-            [routerLink]="['/admin']">
+                                </button>
 
-            Regresar al panel
+                            </div>
 
-        </a>
+                        </td>
+
+                    </tr>
+
+                    }
+
+                    @empty{
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="text-center text-muted py-4">
+
+                            No hay vehículos registrados
+
+                        </td>
+
+                    </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="mt-3 pt-3 border-top">
+
+            <a
+                class="btn btn-back"
+                [routerLink]="['/admin']">
+
+                Regresar al panel
+
+            </a>
+
+        </div>
 
     </div>
 
 </div>
 
+<!-- MODAL -->
 <div
     class="modal fade"
     id="modalEliminarVehiculo"
-    tabindex="-1">
+    tabindex="-1"
+    aria-hidden="true">
 
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
 
-        <div class="modal-content">
+        <div class="modal-content rounded-4">
 
             <div class="modal-header">
 
-                <h5 class="modal-title">
-
+                <h5 class="modal-title fw-semibold">
                     Confirmar eliminación
-
                 </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+                </button>
 
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body text-muted">
 
                 ¿Desea eliminar este vehículo?
 
@@ -230,6 +307,7 @@
             <div class="modal-footer">
 
                 <button
+                    type="button"
                     class="btn btn-secondary"
                     data-bs-dismiss="modal">
 
@@ -238,7 +316,8 @@
                 </button>
 
                 <button
-                    class="btn btn-danger"
+                    type="button"
+                    class="btn btn-delete"
                     data-bs-dismiss="modal"
                     (click)="confirmarEliminarVehiculo()">
 

@@ -56,7 +56,7 @@ export class GuiasAdmin implements OnInit {
       next:(response:any)=>{
         console.log('GUIAS RECARGADOS', response);
         this.guias = response;
-        this.cdr.markForCheck();
+        this.cdr.detectChanges();
     
       },
 
@@ -169,8 +169,9 @@ export class GuiasAdmin implements OnInit {
     this.idiomaSeleccionado = 0;
     this.idiomaguiaService.getIdiomasByGuia(guia.idguia).subscribe({
       next: (response: any) => {
-        this.idiomasDelGuia = response;
-        this.cdr.markForCheck();
+        console.log('IDIOMAS DEL GUIA:', response);
+        this.idiomasDelGuia = response|| [];
+        this.cdr.detectChanges();
       },
       error: (err) => { console.log(err); }
     });
@@ -212,5 +213,9 @@ export class GuiasAdmin implements OnInit {
       error: (err) => { console.log('ERROR DELETE IDIOMA', err); }
     });
   }
-}
+
+  getIniciales(nombre: string): string {
+  return nombre?.substring(0, 2).toUpperCase() ?? '';
+  }
+} 
   

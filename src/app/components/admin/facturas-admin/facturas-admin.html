@@ -1,272 +1,258 @@
 <section class="admin-header">
-    <div class="container">
-        <h1>Administración de Facturas</h1>
-    </div>
+  <div class="container">
+    <h1>Administración de Facturas</h1>
+  </div>
 </section>
- 
+
 <div class="container py-5">
- 
-    @if(mensaje != ''){
-        <div class="alert alert-success shadow-sm mb-4">
-            {{mensaje}}
-        </div>
-    }
- 
-    <div class="card shadow p-4 mb-5">
- 
-        <h3>
-            @if(modoEdicion){
-                Editar Factura
-            }@else{
-                Nueva Factura
-            }
-        </h3>
- 
-        <div class="row g-3">
- 
-            <div class="col-12">
-                <select class="form-select"
-                    [(ngModel)]="factura.idReserva"
-                    (ngModelChange)="onReservaChange()">
-                    <option [ngValue]="null">Seleccione Reserva</option>
-                    @for(reserva of reservas; track reserva.idreserva){
-                        <option [ngValue]="reserva.idreserva">
-                            Reserva #{{reserva.idreserva}} — {{reserva.clientenombres.String}}
-                        </option>
-                    }
-                </select>
-            </div>
- 
-            @if(factura.idReserva){
-                <div class="col-12">
-                    @if(participantesReserva.length > 0){
-                        <div class="alert alert-info py-3">
-                            <strong>Seleccione los participantes a facturar:</strong>
-                            <div class="mt-2">
-                                @for(p of participantesReserva; track p.idparticipante){
-                                    <div class="form-check">
-                                        <input
-                                            class="form-check-input"
-                                            type="checkbox"
-                                            [value]="p.idparticipante"
-                                            (change)="toggleParticipante(p.idparticipante, $event)">
-                                        <label class="form-check-label">
-                                            {{p.nombre || 'Participante #' + p.idparticipante}}
-                                        </label>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    }@else{
-                        <div class="alert alert-warning py-2">
-                            Todos los participantes de esta reserva ya tienen factura asignada.
-                        </div>
-                    }
-                </div>
-            }
- 
-            <div class="col-md-6">
-                <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Número de Factura"
-                    [(ngModel)]="factura.numeroFactura">
-            </div>
- 
-            <div class="col-md-6">
-                <input
-                    type="date"
-                    class="form-control"
-                    [(ngModel)]="factura.fechaFactura">
-            </div>
- 
-            <div class="col-md-6">
-                <select class="form-select" [(ngModel)]="factura.metodoPago">
-                    <option [ngValue]="null">Seleccione Método de Pago</option>
-                    @for(metodo of metodosPago; track $index){
-                        <option [ngValue]="metodo">{{metodo}}</option>
-                    }
-                </select>
-            </div>
- 
-            <div class="col-md-6">
-                <select class="form-select" [(ngModel)]="factura.moneda">
-                    <option [ngValue]="null">Seleccione Moneda</option>
-                    @for(moneda of monedas; track $index){
-                        <option [ngValue]="moneda">{{moneda}}</option>
-                    }
-                </select>
-            </div>
- 
-            <div class="col-md-6">
-                <select class="form-select" [(ngModel)]="factura.idEstadoPago">
-                    <option [ngValue]="null">Seleccione Estado de Pago</option>
-                    @for(estado of estadosPago; track estado.idestadopago){
-                        <option [ngValue]="estado.idestadopago">{{estado.nombre}}</option>
-                    }
-                </select>
-            </div>
- 
-            <div class="col-md-6">
-                <label class="form-label text-muted small">Fecha de Pago (opcional)</label>
-                <input
-                    type="date"
-                    class="form-control"
-                    [(ngModel)]="factura.fechaPago">
-            </div>
- 
-            <div class="col-md-4">
-                <input
-                    type="number"
-                    class="form-control"
-                    placeholder="Subtotal"
-                    [(ngModel)]="factura.subtotal"
-                    (ngModelChange)="calcularTotal()">
-            </div>
- 
-            <div class="col-md-4">
-                <input
-                    type="number"
-                    class="form-control"
-                    placeholder="Impuesto"
-                    [(ngModel)]="factura.impuesto"
-                    (ngModelChange)="calcularTotal()">
-            </div>
- 
-            <div class="col-md-4">
-                <input
-                    type="number"
-                    class="form-control"
-                    placeholder="Descuento"
-                    [(ngModel)]="factura.descuento"
-                    (ngModelChange)="calcularTotal()">
-            </div>
- 
-            <div class="col-md-6">
-                <input
-                    type="number"
-                    class="form-control"
-                    placeholder="Precio Total"
-                    [(ngModel)]="factura.precioTotal"
-                    [readOnly]="true">
-            </div>
- 
-            <div class="col-12">
-                <button class="btn btn-success me-2" (click)="guardarFactura()">
-                    Guardar
-                </button>
- 
-                @if(modoEdicion){
-                    <button class="btn btn-secondary" (click)="cancelar()">
-                        Cancelar
-                    </button>
-                }
-            </div>
- 
-        </div>
+
+  @if(mensaje != ''){
+  <div class="alert alert-success shadow-sm mb-4">
+    {{ mensaje }}
+  </div>
+  }
+
+  <!-- FORMULARIO -->
+  <div class="card shadow p-4 mb-5">
+
+    <h3 class="mb-1">
+      @if(modoEdicion){ Editar factura } @else { Nueva factura }
+    </h3>
+    <p class="text-muted small mb-4">
+      @if(modoEdicion){ Modificá los datos de la factura seleccionada. } @else { Completá todos los campos para registrar una nueva factura. }
+    </p>
+
+    <!-- RESERVA -->
+    <p class="form-section-label">Reserva</p>
+    <div class="row g-3 mb-3">
+      <div class="col-12">
+        <label class="form-label fw-semibold">Reserva asociada</label>
+        <select class="form-control" [(ngModel)]="factura.idReserva" (ngModelChange)="onReservaChange()">
+          <option [ngValue]="null">Seleccione una reserva</option>
+          @for(reserva of reservas; track reserva.idreserva){
+          <option [ngValue]="reserva.idreserva">
+            Reserva #{{ reserva.idreserva }} — {{ reserva.clientenombres.String }}
+          </option>
+          }
+        </select>
+      </div>
     </div>
- 
-    <table class="table table-hover table-striped">
+
+    @if(factura.idReserva){
+    <div class="row g-3 mb-3">
+      <div class="col-12">
+        @if(participantesReserva.length > 0){
+        <div class="participantes-check-box">
+          <p class="fw-semibold small mb-2">Seleccione los participantes a facturar:</p>
+          <div class="row g-2">
+            @for(p of participantesReserva; track p.idparticipante){
+            <div class="col-md-4">
+              <div class="form-check participante-check-item">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  [value]="p.idparticipante"
+                  (change)="toggleParticipante(p.idparticipante, $event)">
+                <label class="form-check-label small">
+                  {{ p.nombre || 'Participante #' + p.idparticipante }}
+                </label>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+        } @else {
+        <div class="alert alert-warning py-2 small">
+          Todos los participantes de esta reserva ya tienen factura asignada.
+        </div>
+        }
+      </div>
+    </div>
+    }
+
+    <!-- DATOS FACTURA -->
+    <p class="form-section-label">Datos de la factura</p>
+    <div class="row g-3 mb-3">
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Número de factura</label>
+        <input type="text" class="form-control" placeholder="FAC-0001" [(ngModel)]="factura.numeroFactura">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Fecha de factura</label>
+        <input type="date" class="form-control" [(ngModel)]="factura.fechaFactura">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Estado de pago</label>
+        <select class="form-control" [(ngModel)]="factura.idEstadoPago">
+          <option [ngValue]="null">Seleccione</option>
+          @for(estado of estadosPago; track estado.idestadopago){
+          <option [ngValue]="estado.idestadopago">{{ estado.nombre }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <div class="row g-3 mb-3">
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Método de pago</label>
+        <select class="form-control" [(ngModel)]="factura.metodoPago">
+          <option [ngValue]="null">Seleccione</option>
+          @for(metodo of metodosPago; track $index){
+          <option [ngValue]="metodo">{{ metodo }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Moneda</label>
+        <select class="form-control" [(ngModel)]="factura.moneda">
+          <option [ngValue]="null">Seleccione</option>
+          @for(moneda of monedas; track $index){
+          <option [ngValue]="moneda">{{ moneda }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Fecha de pago <span class="fw-normal text-muted">(opcional)</span></label>
+        <input type="date" class="form-control" [(ngModel)]="factura.fechaPago">
+      </div>
+    </div>
+
+    <!-- MONTOS -->
+    <p class="form-section-label">Montos</p>
+    <div class="row g-3 mb-4">
+      <div class="col-md-3">
+        <label class="form-label fw-semibold">Subtotal</label>
+        <input type="number" class="form-control" placeholder="0.00" [(ngModel)]="factura.subtotal" (ngModelChange)="calcularTotal()">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label fw-semibold">Impuesto</label>
+        <input type="number" class="form-control" placeholder="0.00" [(ngModel)]="factura.impuesto" (ngModelChange)="calcularTotal()">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label fw-semibold">Descuento</label>
+        <input type="number" class="form-control" placeholder="0.00" [(ngModel)]="factura.descuento" (ngModelChange)="calcularTotal()">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label fw-semibold">Total</label>
+        <input type="number" class="form-control fw-semibold" placeholder="0.00" [(ngModel)]="factura.precioTotal" [readOnly]="true"
+          style="background:#f0fdf4; border-color:#bbf7d0; color:#14532d; font-weight:600;">
+      </div>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button class="btn btn-success" (click)="guardarFactura()">
+        {{ modoEdicion ? 'Actualizar factura' : 'Guardar factura' }}
+      </button>
+      @if(modoEdicion){
+      <button class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+      }
+    </div>
+
+  </div>
+
+  <!-- TABLA -->
+  <div class="card shadow p-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h3 class="mb-0">Facturas registradas</h3>
+        <p class="text-muted small mb-0">{{ facturas.length }} registros</p>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
         <thead>
-            <tr>
-                <th>#</th>
-                <th>N° Factura</th>
-                <th>Fecha</th>
-                <th>Estado Pago</th>
-                <th>Fecha Pago</th>
-                <th>Método Pago</th>
-                <th>Moneda</th>
-                <th>Subtotal</th>
-                <th>Impuesto</th>
-                <th>Descuento</th>
-                <th>Total</th>
-                <th></th>
-            </tr>
+          <tr>
+            <th style="width:42px">#</th>
+            <th>N° Factura</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Método</th>
+            <th>Moneda</th>
+            <th>Subtotal</th>
+            <th>Imp.</th>
+            <th>Desc.</th>
+            <th>Total</th>
+            <th class="text-end">Acciones</th>
+          </tr>
         </thead>
         <tbody>
-            @for(f of facturas; track f.idfactura){
-                <tr>
-                    <td>{{f.idfactura}}</td>
-                    <td>{{f.numerofactura}}</td>
-                    <td>{{f.fechafactura | date:'dd/MM/yyyy'}}</td>
-                    <td>{{f.nombreestado}}</td>
-                    <td>{{f.fechapago?.Valid ? (f.fechapago.Time | date:'dd/MM/yyyy') : '-'}}</td>
-                    <td>{{f.metodopago}}</td>
-                    <td>{{f.moneda}}</td>
-                    <td>{{f.subtotal}}</td>
-                    <td>{{f.impuesto}}</td>
-                    <td>{{f.descuento}}</td>
-                    <td>{{f.preciototal}}</td>
-                    <td>
-                        <button class="btn btn-edit btn-sm me-2"
-                            (click)="editarFactura(f)">
-                            Editar
-                        </button>
-                        <button class="btn btn-delete btn-sm"
-                            (click)="seleccionarFacturaEliminar(f.idfactura)"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modalEliminarFactura">
-                            Eliminar
-                        </button>
-                    </td>
-                </tr>
-            }
-            @empty {
-                <tr>
-                    <td colspan="11" class="text-center text-muted py-3">
-                        No hay facturas registradas
-                    </td>
-                </tr>
-            }
+          @for(f of facturas; track f.idfactura){
+          <tr>
+            <td class="text-muted small">{{ f.idfactura }}</td>
+            <td class="fw-semibold">{{ f.numerofactura }}</td>
+            <td class="text-muted">{{ f.fechafactura | date:'dd/MM/yyyy' }}</td>
+            <td>
+              <span class="estado-badge"
+                [ngClass]="{
+                  'estado-confirmada': f.nombreestado === 'Pagada',
+                  'estado-pendiente':  f.nombreestado === 'Pendiente',
+                  'estado-cancelada':  f.nombreestado === 'Anulada'
+                }">
+                {{ f.nombreestado }}
+              </span>
+            </td>
+            <td class="text-muted">{{ f.metodopago }}</td>
+            <td class="text-muted">{{ f.moneda }}</td>
+            <td>{{ f.subtotal }}</td>
+            <td class="text-muted">{{ f.impuesto }}</td>
+            <td class="text-muted">{{ f.descuento }}</td>
+            <td class="fw-semibold" style="color:#14532d">{{ f.preciototal }}</td>
+            <td class="text-end">
+              <div class="d-flex gap-2 justify-content-end">
+                <button class="btn btn-edit btn-sm px-2" (click)="editarFactura(f)" title="Editar">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button
+                  class="btn btn-delete btn-sm px-2"
+                  (click)="seleccionarFacturaEliminar(f.idfactura)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalEliminarFactura"
+                  title="Eliminar">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          }
+          @empty{
+          <tr>
+            <td colspan="11" class="text-center text-muted py-4">
+              No hay facturas registradas
+            </td>
+          </tr>
+          }
         </tbody>
-    </table>
- 
-    <div class="mb-4">
-        <a class="btn btn-back" [routerLink]="['/admin']">
-            Regresar al panel
-        </a>
+      </table>
     </div>
- 
-    <div class="modal fade"
-        id="modalEliminarFactura"
-        tabindex="-1"
-        aria-hidden="true">
- 
-        <div class="modal-dialog">
-            <div class="modal-content">
- 
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirmar eliminación</h5>
-                    <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal">
-                    </button>
-                </div>
- 
-                <div class="modal-body">
-                    ¿Desea eliminar esta factura?
-                </div>
- 
-                <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal">
-                        Cancelar
-                    </button>
-                    <button
-                        type="button"
-                        class="btn btn-danger"
-                        data-bs-dismiss="modal"
-                        (click)="confirmarEliminarFactura()">
-                        Eliminar
-                    </button>
-                </div>
- 
-            </div>
-        </div>
+
+    <div class="mt-3 pt-3 border-top">
+      <a class="btn btn-back" [routerLink]="['/admin']">Regresar al panel</a>
     </div>
- 
+
+  </div>
+
 </div>
- 
+
+
+<!-- MODAL: ELIMINAR FACTURA -->
+<div class="modal fade" id="modalEliminarFactura" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content rounded-4">
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Confirmar eliminación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-muted">
+        ¿Desea eliminar esta factura?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-delete" data-bs-dismiss="modal" (click)="confirmarEliminarFactura()">
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
