@@ -29,7 +29,7 @@ export class FacturasAdmin implements OnInit {
   public facturaIdEliminar: number = 0;
  
   public metodosPago: string[] = ['Efectivo', 'Tarjeta', 'Transferencia'];
-  public monedas: string[] = ['CRC', 'USD'];
+  public monedas: string[] = ['CRC', 'USD', 'EUR'];
 
   public filtroNumeroFactura: string = '';
   public filtroEstadoPago: string = '';

@@ -46,6 +46,10 @@ export class UsuarioService{
         return this._http.delete(this.url + 'usuario/' + id, { headers });
     }
 
+    registrarCliente(body: any) {
+        return this._http.post(`${this.url}registro-cliente`, body);
+    }
+
     uploadImage(formData:FormData):Observable<any>{
         return this._http.post(this.url + 'usuario/upload', formData);
     }

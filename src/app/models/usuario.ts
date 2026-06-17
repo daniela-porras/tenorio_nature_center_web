@@ -7,6 +7,11 @@ export class User{
         public apellido?:string,
         public rol?:string,
         public descripcion?:string,
-        public imagen?:string
+        public imagen?:string,
+        public identificador?:string,
+        public fechaNac?:string,
+        public telefono?:string,
+        public nacionalidad?:string,
+        public confirmarContrasena?:string
     ){}
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { User } from '../../models/usuario';
 import { UsuarioService } from '../../services/usuario.service';
 import { Router } from '@angular/router';
@@ -14,6 +14,8 @@ import { RouterLink } from '@angular/router';
 export class Registro {
   public user: User;
   public status: number = -1;
+  public mensajeError: string = '';
+  public cargando: boolean = false;
 
   constructor(
     private _usuarioService: UsuarioService,
@@ -38,26 +40,50 @@ export class Registro {
     }
   }
 
-  onSubmit(form: any){
+  onSubmit(form: NgForm){
+
+    if (this.user.contrasena !== this.user.confirmarContrasena) {
+      this.mensajeError = 'Las contraseñas no coinciden.';
+      this.status = 0;
+      return;
+    }
+
+    this.cargando = true;
+    this.mensajeError = '';
+
     const body = {
       nombre: this.user.nombre,
       apellido: this.user.apellido,
       correo: this.user.correo,
       contrasena: this.user.contrasena,
-      rol: this.user.rol,
-      descripcion: this.user.descripcion,
-      imagen: this.user.imagen
+      identificador: this.user.identificador,
+      fechaNac: this.user.fechaNac,
+      telefono: this.user.telefono,
+      nacionalidad: this.user.nacionalidad
     };
 
-    this._usuarioService.createUsuario(body).subscribe({
+    console.log('BODY FINAL A ENVIAR:', JSON.stringify(body));
+
+    this._usuarioService.registrarCliente(body).subscribe({
       next:(response) => {
-        console.log("Usuario creado", response);
+        console.log("Cliente registrado", response);
+        this.cargando = false;
         this.status = 1;
-        this._router.navigate(['/login']);
+
+        setTimeout(() => {
+          this._router.navigate(['/login']);
+        }, 1500);
       },
-      error:(err:Error) => {
+      error:(err:any) => {
         console.log("Error", err);
+        this.cargando = false;
         this.status = 0;
+
+        if (err.status === 409) {
+          this.mensajeError = err.error?.error || 'El correo o la identificación ya están registrados.';
+        } else {
+          this.mensajeError = 'Ocurrió un error al registrar el usuario.';
+        }
       }
     });
   }

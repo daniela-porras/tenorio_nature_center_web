@@ -1,66 +1,206 @@
-<div class="login-page">
-    <div class="login-overlay"></div>
-    <div class="login-container">
+<section class="admin-header">
+  <div class="container">
+    <h1>Crear cuenta</h1>
+    <p>Registrate para reservar tours fácilmente.</p>
+  </div>
+</section>
 
-        <div class="text-center mb-4">
-            <h2 class="login-title">Registro</h2>
-            <p class="login-subtitle">Tenorio Nature Center</p>
+<div class="container py-5">
+
+  @if(status === 1){
+  <div class="alert alert-success shadow-sm mb-4">
+    Registro exitoso. Redirigiendo al login...
+  </div>
+  }
+
+  @if(status === 0 && mensajeError){
+  <div class="alert alert-danger shadow-sm mb-4">
+    {{ mensajeError }}
+  </div>
+  }
+
+  <div class="card shadow p-4">
+
+    <h3 class="mb-1">Nuevo registro</h3>
+    <p class="text-muted small mb-4">Completá todos los campos para crear tu cuenta.</p>
+
+    <form #registroForm="ngForm" (ngSubmit)="onSubmit(registroForm)">
+
+      <!-- DATOS DE ACCESO -->
+      <p class="form-section-label">Datos de acceso</p>
+      <div class="row g-3 mb-4">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Nombre</label>
+          <input
+            class="form-control"
+            name="nombre"
+            #nombre="ngModel"
+            [(ngModel)]="user.nombre"
+            placeholder="Nombre"
+            required
+            pattern="^[A-Za-záéíóúÁÉÍÓÚüÜñÑ\s]{2,50}$">
+          @if(nombre.invalid && nombre.touched){
+            <small class="invalid-feedback d-block">
+              @if(nombre.errors?.['required']){ El nombre es obligatorio. }
+              @else { Solo letras y espacios, mínimo 2 caracteres. }
+            </small>
+          }
         </div>
-
-        @if(status===0){
-            <div class="alert alert-danger">
-                Error al registrar, intente de nuevo
-            </div>
-        }
-
-        <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
-
-            <div class="mb-3">
-                <label class="form-label">Nombre</label>
-                <input type="text" class="form-control custom-input"
-                    name="nombre" #nombre="ngModel"
-                    [(ngModel)]="user.nombre" required>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Apellido</label>
-                <input type="text" class="form-control custom-input"
-                    name="apellido" #apellido="ngModel"
-                    [(ngModel)]="user.apellido">
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Imagen</label>
-                <input type="file" class="form-control custom-input"
-                    name="imagen" (change)="uploadImage($event)">
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Correo</label>
-                <input type="email" class="form-control custom-input"
-                    name="correo" #correo="ngModel"
-                    [(ngModel)]="user.correo" required>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Contraseña</label>
-                <input type="password" class="form-control custom-input"
-                    name="contrasena" #contrasena="ngModel"
-                    [(ngModel)]="user.contrasena" required>
-            </div>
-
-            <div class="d-grid">
-                <button class="btn btn-success login-btn" type="submit"
-                    [disabled]="registerForm.invalid">Registrarse</button>
-            </div>
-
-        </form>
-
-        <div class="text-center mt-3">
-            <a [routerLink]="['/login']" style="color:rgba(255,255,255,0.8)">
-                ¿Ya tenés cuenta? Iniciá sesión
-            </a>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Apellido</label>
+          <input
+            class="form-control"
+            name="apellido"
+            #apellido="ngModel"
+            [(ngModel)]="user.apellido"
+            placeholder="Apellido"
+            required
+            pattern="^[A-Za-záéíóúÁÉÍÓÚüÜñÑ\s]{2,50}$">
+          @if(apellido.invalid && apellido.touched){
+            <small class="invalid-feedback d-block">
+              @if(apellido.errors?.['required']){ El apellido es obligatorio. }
+              @else { Solo letras y espacios, mínimo 2 caracteres. }
+            </small>
+          }
         </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Correo electrónico</label>
+          <input
+            type="email"
+            class="form-control"
+            name="correo"
+            #correo="ngModel"
+            [(ngModel)]="user.correo"
+            placeholder="correo@ejemplo.com"
+            required
+            email>
+          @if(correo.invalid && correo.touched){
+            <small class="invalid-feedback d-block">
+              @if(correo.errors?.['required']){ El correo es obligatorio. }
+              @else { Ingresá un correo válido. }
+            </small>
+          }
+        </div>
+      </div>
 
-    </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Contraseña</label>
+          <input
+            type="password"
+            class="form-control"
+            name="contrasena"
+            #contrasena="ngModel"
+            [(ngModel)]="user.contrasena"
+            placeholder="Contraseña"
+            required
+            minlength="6"
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$">
+          @if(contrasena.invalid && contrasena.touched){
+            <small class="invalid-feedback d-block">
+              @if(contrasena.errors?.['required']){ La contraseña es obligatoria. }
+              @else if(contrasena.errors?.['minlength']){ Mínimo 6 caracteres. }
+              @else { Debe incluir mayúscula, minúscula y número. }
+            </small>
+          }
+          <small class="text-muted">Mínimo 6 caracteres, con mayúscula, minúscula y número.</small>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Confirmar contraseña</label>
+          <input
+            type="password"
+            class="form-control"
+            name="confirmarContrasena"
+            #confirmarContrasena="ngModel"
+            [(ngModel)]="user.confirmarContrasena"
+            placeholder="Confirmar contraseña"
+            required>
+          @if(confirmarContrasena.touched && contrasena.value !== confirmarContrasena.value){
+            <small class="invalid-feedback d-block">Las contraseñas no coinciden.</small>
+          }
+        </div>
+      </div>
+
+      <!-- DATOS PERSONALES -->
+      <p class="form-section-label">Datos personales</p>
+      <div class="row g-3 mb-4">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Identificación</label>
+          <input
+            class="form-control"
+            name="identificador"
+            #identificador="ngModel"
+            [(ngModel)]="user.identificador"
+            placeholder="1-2345-6789 o pasaporte"
+            required
+            pattern="^[A-Za-z0-9\-]{5,25}$">
+          @if(identificador.invalid && identificador.touched){
+            <small class="invalid-feedback d-block">
+              @if(identificador.errors?.['required']){ La identificación es obligatoria. }
+              @else { Formato inválido (5-25 caracteres alfanuméricos). }
+            </small>
+          }
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Fecha de nacimiento</label>
+          <input
+            type="date"
+            class="form-control"
+            name="fechaNac"
+            #fechaNac="ngModel"
+            [(ngModel)]="user.fechaNac"
+            required>
+          @if(fechaNac.invalid && fechaNac.touched){
+            <small class="invalid-feedback d-block">La fecha de nacimiento es obligatoria.</small>
+          }
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Teléfono</label>
+          <input
+            class="form-control"
+            name="telefono"
+            #telefono="ngModel"
+            [(ngModel)]="user.telefono"
+            placeholder="+506 8888-0000"
+            required
+            pattern="^[+]?[\d\s\-\(\)\.]{7,20}$">
+          @if(telefono.invalid && telefono.touched){
+            <small class="invalid-feedback d-block">
+              @if(telefono.errors?.['required']){ El teléfono es obligatorio. }
+              @else { Formato inválido. Ej: +506 8888-0000 }
+            </small>
+          }
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Nacionalidad</label>
+          <input
+            class="form-control"
+            name="nacionalidad"
+            #nacionalidad="ngModel"
+            [(ngModel)]="user.nacionalidad"
+            placeholder="Costarricense"
+            required
+            pattern="^[A-Za-záéíóúÁÉÍÓÚüÜñÑ\s]{3,50}$">
+          @if(nacionalidad.invalid && nacionalidad.touched){
+            <small class="invalid-feedback d-block">
+              @if(nacionalidad.errors?.['required']){ La nacionalidad es obligatoria. }
+              @else { Solo letras, mínimo 3 caracteres. }
+            </small>
+          }
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-success"
+        [disabled]="registroForm.invalid || cargando || (contrasena.value !== confirmarContrasena.value)">
+        {{ cargando ? 'Registrando...' : 'Registrarme' }}
+      </button>
+
+    </form>
+
+    <p class="text-muted small mt-3 mb-0">
+      ¿Ya tenés cuenta? <a [routerLink]="['/login']">Iniciá sesión</a>
+    </p>
+
+  </div>
+
 </div>
