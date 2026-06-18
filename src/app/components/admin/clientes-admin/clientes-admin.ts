@@ -276,36 +276,29 @@ export class ClientesAdmin implements OnInit {
 
   }
 
-  confirmarEliminarCliente(){
-
+  confirmarEliminarCliente() {
     console.log('CONFIRMAR ELIMINAR');
     console.log('ID:', this.idClienteEliminar);
-    this.clienteService.deleteCliente(this.idClienteEliminar)
-    .subscribe({
 
-      next:()=>{
+    this.clienteService.deleteCliente(this.idClienteEliminar).subscribe({
 
+      next: () => {
         this.mensaje = 'Cliente eliminado correctamente';
-
         this.loadClientes();
-
-        setTimeout(()=>{
-
-          this.mensaje = '';
-
-        },3000);
-
+        setTimeout(() => { this.mensaje = ''; }, 3000);
       },
 
-      error:(err)=>{
-
+      error: (err) => {
         console.log('ERROR DELETE', err);
 
+        this.mensajeError = 'No se puede eliminar el cliente porque tiene participantes asociados.';
+        this.cdr.detectChanges();
+        setTimeout(() => { this.mensajeError = ''; }, 4000);
       }
 
     });
-
   }
+
 
   cancelar(){
 

@@ -163,6 +163,7 @@ export class ReservaPublica implements OnInit {
           this.reserva.telefonoCliente = cliente.telefono;
           this.reserva.nacionalidadCliente = cliente.nacionalidad;
           this.reserva.fechaNacCliente =cliente.fechanac?.substring(0,10);
+          this.cdr.detectChanges();
 
         },
 

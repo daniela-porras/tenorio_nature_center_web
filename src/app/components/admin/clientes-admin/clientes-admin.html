@@ -352,7 +352,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body text-muted">
-        ¿Desea eliminar este cliente?
+        @if(mensajeError){
+          {{ mensajeError }}
+        } @else {
+          ¿Desea eliminar este cliente?
+        }
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

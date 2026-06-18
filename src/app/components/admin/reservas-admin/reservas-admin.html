@@ -323,7 +323,7 @@
             <strong>Participantes agregados:</strong> {{ participantes.length + 1 }}
           </span>
           <span>
-            <strong>Subtotal estimado:</strong> ₡{{ (participantes.length + 1) * reserva.precio }}
+            <strong>Subtotal estimado:</strong> {{ (participantes.length + 1) * reserva.precio }}
           </span>
         </div>
       </div>}
@@ -557,10 +557,10 @@
                 {{ item.estadoreserva }}
               </span>
             </td>
-            <td>₡{{ item.preciounitario }}</td>
+            <td>{{ item.preciounitario }}</td>
             <td class="text-muted">{{ item.cantidadpersonas }}</td>
             <td class="fw-semibold" style="color:#14532d">
-            ₡{{ getTotalBruto(item) }}
+            {{ getTotalBruto(item) }}
             </td>
             <td class="text-muted">{{ item.guia?.String || '—' }}</td>
             <td class="text-muted">{{ item.chofer?.String || '—' }}</td>

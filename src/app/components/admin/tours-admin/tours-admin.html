@@ -135,7 +135,7 @@
             name="precioBase"
             #precioBase="ngModel"
             [(ngModel)]="tour.precioBase"
-            placeholder="₡0.00"
+            placeholder="0.00"
             required
             min="0">
           @if(precioBase.invalid && precioBase.touched){
@@ -267,7 +267,7 @@
             <td class="text-muted">{{ item.horario }}</td>
             <td>{{ item.duracion }} hrs</td>
             <td>{{ item.cuposmaximos }}</td>
-            <td class="fw-semibold" style="color:#14532d">₡{{ item.preciobase }}</td>
+            <td class="fw-semibold" style="color:#14532d">{{ item.preciobase }}</td>
             <td class="text-end">
               <div class="d-flex gap-2 justify-content-end">
                 <button class="btn btn-edit btn-sm px-2" (click)="editarTour(item)" title="Editar">
